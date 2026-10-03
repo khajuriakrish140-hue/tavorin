@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tavorin: tech solutions on demand</title>
+<meta name="description" content="Got a bug? We'll fix it. Need automation? We'll build it. Tavorin takes on tech projects on demand.">
+<meta name="theme-color" content="#04050a">
+<link rel="canonical" href="https://tavorin.me/">
+<meta property="og:title" content="Tavorin: tech solutions on demand">
+<meta property="og:description" content="Got a bug? We'll fix it. Need automation? We'll build it.">
+<meta property="og:url" content="https://tavorin.me/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2304050a'/%3E%3Crect x='7' y='7' width='18' height='18' fill='none' stroke='%234d6bff' stroke-width='2'/%3E%3Crect x='12' y='12' width='8' height='8' fill='%23ffb020'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  // Hide the hero's animated pieces before first paint, only when motion is allowed.
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('motion');
+  }
+</script>
+
+<style>
+  :root {
+    --void: #04050a;
+    --panel: #0b0e19;
+    --line: #232a40;
+    --paper: #eef1f8;
+    --muted: #8c95b0;
+    --cobalt: #4d6bff;
+    --amber: #ffb020;
+
+    --display: "Archivo", "Arial Black", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --gutter: clamp(1.25rem, 4vw, 4rem);
+    --section: clamp(5rem, 14vh, 11rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--void);
+    color: var(--paper);
+    font-family: var(--display);
+    font-stretch: 100%;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1875rem);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+  a:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
+  h1, h2, h3, p { margin: 0; }
+  ::selection { background: var(--cobalt); color: #fff; }
+
+  .skip {
+    position: absolute; left: var(--gutter); top: -4rem; z-index: 20;
+    background: var(--paper); color: var(--void); padding: .6rem 1rem; text-decoration: none;
+  }
+  .skip:focus { top: 1rem; }
+
+  /* ---------- header ---------- */
+  .top {
+    position: absolute; inset: 0 0 auto 0; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem var(--gutter);
+  }
+  .wordmark {
+    font-stretch: 125%; font-weight: 800; font-size: 1.125rem;
+    letter-spacing: -0.01em; text-decoration: none;
+  }
+  .top nav { display: flex; gap: clamp(1.25rem, 3vw, 2.75rem); }
+  .top nav a {
+    font-size: .9375rem; font-weight: 500; text-decoration: none; color: var(--paper);
+    padding: .5rem 0; border-bottom: 1px solid transparent; transition: border-color .2s;
+  }
+  .top nav a:hover { border-bottom-color: var(--amber); }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 100vh; min-height: 100svh;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+    /* static fallback when WebGL is unavailable */
+    background:
+      linear-gradient(to top, var(--void) 0%, transparent 55%),
+      linear-gradient(rgba(77,107,255,.16) 1px, transparent 1px) 0 0 / 56px 56px,
+      linear-gradient(90deg, rgba(77,107,255,.16) 1px, transparent 1px) 0 0 / 56px 56px,
+      var(--void);
+  }
+  .hero canvas {
+    position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(to top, var(--void) 0%, rgba(4,5,10,.5) 24%, rgba(4,5,10,0) 60%),
+      linear-gradient(to right, rgba(4,5,10,.3), rgba(4,5,10,0) 55%);
+  }
+  .hero-body {
+    position: relative; z-index: 2; width: 100%;
+    padding: 7rem var(--gutter) clamp(2.5rem, 7vh, 5rem);
+    display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 1.5rem; row-gap: 2.5rem;
+    align-items: end;
+  }
+  .hero h1 {
+    grid-column: 1 / -1;
+    font-stretch: 125%; font-weight: 800;
+    font-size: clamp(2.5rem, 9.4vw, 9.5rem);
+    line-height: .92; letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+  .hero h1 .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .12em; margin-bottom: -.12em; }
+  .hero h1 .w > span { display: inline-block; }
+  .hero h1 .w.lead { display: block; }
+  .subline {
+    grid-column: 1 / span 7;
+    max-width: 62ch;
+    font-size: clamp(1.0625rem, 1rem + .45vw, 1.375rem);
+    line-height: 1.5; color: #cfd5e6;
+  }
+  .hero-actions {
+    grid-column: 9 / -1; justify-self: end;
+    display: flex; flex-wrap: wrap; gap: .75rem;
+  }
+  .btn {
+    display: inline-flex; align-items: center; min-height: 3.25rem; padding: 0 1.6rem;
+    font-weight: 600; font-size: 1rem; text-decoration: none; white-space: nowrap;
+    border: 1px solid var(--paper); transition: background-color .2s, color .2s, border-color .2s;
+  }
+  .btn.solid { background: var(--paper); color: var(--void); }
+  .btn.solid:hover { background: var(--amber); border-color: var(--amber); }
+  .btn.ghost:hover { background: var(--paper); color: var(--void); }
+
+  .motion .hero [data-in] { visibility: hidden; }
+
+  /* ---------- sections ---------- */
+  section { padding: var(--section) var(--gutter); overflow-x: hidden; overflow-x: clip; }
+  .sec-title {
+    font-size: 1rem; font-weight: 500; color: var(--muted);
+    margin-bottom: clamp(2rem, 6vh, 4.5rem);
+  }
+
+  /* what we do */
+  .service { position: relative; padding: clamp(1.75rem, 5vh, 3.5rem) 0; display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 1.5rem; row-gap: 1rem; align-items: baseline; }
+  .service .rule { position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: var(--line); transform-origin: left center; }
+  .service h3 {
+    grid-column: 1 / span 7;
+    font-stretch: 125%; font-weight: 800;
+    font-size: clamp(2rem, 6.2vw, 6rem); line-height: .98; letter-spacing: -0.03em;
+  }
+  .service p { grid-column: 8 / -1; max-width: 46ch; color: #c3cadd; }
+
+  /* work */
+  .work { background: var(--panel); border-block: 1px solid var(--line); }
+  .case { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 1.5rem; row-gap: 3rem; align-items: start; }
+  .case-text { grid-column: 1 / span 5; }
+  .case-text h3 {
+    font-stretch: 125%; font-weight: 800;
+    font-size: clamp(2rem, 4.6vw, 4.25rem); line-height: 1; letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .case-text p { max-width: 52ch; color: #c3cadd; }
+  .credit { margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr; gap: .35rem 1.5rem; font-size: .9375rem; }
+  .credit dt { color: var(--muted); }
+  .credit dd { margin: 0; color: var(--paper); font-weight: 500; }
+  .case-links { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .75rem; }
+
+  .term {
+    grid-column: 7 / -1; margin: 0; min-width: 0;
+    background: var(--void); border: 1px solid var(--line);
+    font-family: var(--mono); font-size: clamp(.75rem, .7rem + .25vw, .875rem); line-height: 1.7;
+  }
+  .term-bar { display: flex; justify-content: space-between; padding: .7rem 1rem; border-bottom: 1px solid var(--line); color: var(--muted); }
+  .term-body { padding: 1.25rem 1rem 1.5rem; }
+  .term .cmd { color: var(--paper); overflow-wrap: anywhere; min-height: 1.7em; }
+  .term .cmd::before { content: "$ "; color: var(--cobalt); }
+  .term .warn { color: var(--muted); margin-top: .25rem; }
+  .progress { display: flex; align-items: center; gap: 1rem; margin: 1.25rem 0; color: var(--muted); }
+  .bar { flex: 1; height: 2px; background: var(--line); }
+  .bar i { display: block; height: 100%; background: var(--cobalt); transform-origin: left center; }
+  .count { min-width: 5.5ch; text-align: right; font-variant-numeric: tabular-nums; }
+  .scroll-x { overflow-x: auto; }
+  .term table { width: 100%; border-collapse: collapse; }
+  .term th, .term td { text-align: left; padding: .55rem .75rem .55rem 0; border-bottom: 1px solid var(--line); white-space: nowrap; font-weight: 400; }
+  .term th { color: var(--muted); }
+  .term td.open { color: var(--amber); }
+  .term td.open::before { content: ""; display: inline-block; width: .5em; height: .5em; background: var(--amber); margin-right: .5em; }
+
+  /* contact */
+  .contact h2 {
+    font-stretch: 125%; font-weight: 800;
+    font-size: clamp(2.5rem, 9.4vw, 9.5rem); line-height: .92; letter-spacing: -0.035em;
+    margin-bottom: clamp(2.5rem, 8vh, 5rem);
+  }
+  .contact-rows { border-top: 1px solid var(--line); }
+  .contact-row {
+    display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 1.5rem; align-items: baseline;
+    padding: clamp(1.1rem, 3vh, 1.9rem) 0; border-bottom: 1px solid var(--line);
+  }
+  .contact-row .k { grid-column: 1 / span 3; color: var(--muted); font-size: 1rem; }
+  .contact-row .v {
+    grid-column: 4 / -1;
+    font-stretch: 112%; font-weight: 600;
+    font-size: clamp(1.375rem, 4.4vw, 3.75rem); line-height: 1.1; letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
+  }
+  .contact-row a { text-decoration: none; background: linear-gradient(var(--amber), var(--amber)) left bottom / 0 2px no-repeat; transition: background-size .35s ease, color .2s; }
+  .contact-row a:hover { background-size: 100% 2px; color: #fff; }
+
+  footer { padding: 2rem var(--gutter) 2.5rem; color: var(--muted); font-size: .875rem; }
+
+  /* ---------- narrow ---------- */
+  @media (max-width: 860px) {
+    .top nav a:not(.keep) { display: none; }
+    .subline, .hero-actions { grid-column: 1 / -1; justify-self: start; }
+    .service h3, .service p { grid-column: 1 / -1; }
+    .case-text, .term { grid-column: 1 / -1; }
+    .contact-row .k, .contact-row .v { grid-column: 1 / -1; }
+    .contact-row { row-gap: .25rem; }
+  }
+  @media (max-width: 420px) {
+    .btn { flex: 1 1 100%; justify-content: center; }
+    .hero-actions, .case-links { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <a class="wordmark" href="#top" aria-label="Tavorin, back to top">Tavorin</a>
+  <nav aria-label="Sections">
+    <a href="#what-we-do">What we do</a>
+    <a href="#work">Work</a>
+    <a class="keep" href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+  <div class="hero" id="top">
+    <canvas id="scan" aria-hidden="true"></canvas>
+    <div class="hero-body">
+      <h1><span class="w lead"><span data-in="word">Tavorin:</span></span> <span class="w"><span data-in="word">tech</span></span> <span class="w"><span data-in="word">solutions</span></span> <span class="w"><span data-in="word">on</span></span> <span class="w"><span data-in="word">demand.</span></span></h1>
+      <p class="subline" data-in="fade">Got a bug? We'll fix it. Need automation? We'll build it. Name the project, and if it's within our scope, we'll take it on. If a project needs skills outside our current team, we bring in the right developer.</p>
+      <div class="hero-actions" data-in="fade">
+        <a class="btn solid" href="mailto:krish@tavorin.me">Email Krish</a>
+        <a class="btn ghost" href="#work">See the work</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="what-we-do" aria-labelledby="wwd-title">
+    <h2 class="sec-title" id="wwd-title">What we do</h2>
+
+    <div class="service">
+      <span class="rule"></span>
+      <h3>Fix bugs</h3>
+      <p>Something is broken and nobody can say why. We trace it to the cause, fix it, and tell you what went wrong.</p>
+    </div>
+    <div class="service">
+      <span class="rule"></span>
+      <h3>Build automation</h3>
+      <p>Work a script should be doing instead of a person: scheduled jobs, command-line tools, and the glue between systems you already use.</p>
+    </div>
+    <div class="service">
+      <span class="rule"></span>
+      <h3>Take on projects</h3>
+      <p>Name the project. If it's within our scope, we build it. If it needs skills outside our current team, we bring in the right developer.</p>
+    </div>
+  </section>
+
+  <section class="work" id="work" aria-labelledby="work-title">
+    <h2 class="sec-title" id="work-title">Work</h2>
+
+    <article class="case">
+      <div class="case-text">
+        <h3>TCP port scanner</h3>
+        <p>A command-line TCP connect scanner written in Python. It checks ports 1 to 1024 by default across a pool of 100 worker threads, so a scan takes seconds, and reports each port as open, closed or filtered. It can grab banners from open ports, shows a live table and progress bar in the terminal, and exports results as JSON or HTML.</p>
+        <dl class="credit">
+          <dt>Built for</dt><dd>Tavorin</dd>
+          <dt>Developer</dt><dd>Dhruv Choudhary</dd>
+        </dl>
+        <div class="case-links">
+          <a class="btn solid" href="https://github.com/RYzZzEN007/port-scanner" target="_blank" rel="noopener">View the repo</a>
+          <a class="btn ghost" href="https://ryzzzen007.github.io/port-scanner" target="_blank" rel="noopener">Read the docs</a>
+        </div>
+      </div>
+
+      <figure class="term" aria-label="Example scan from the port scanner's documentation: port 8000 on 127.0.0.1 is open">
+        <div class="term-bar"><span>port-scanner</span><span>127.0.0.1</span></div>
+        <div class="term-body">
+          <div class="cmd" id="cmd">./run.sh 127.0.0.1 --ports 7990-8010 --banner</div>
+          <div class="warn">Scan only systems you own or have written permission to test.</div>
+          <div class="progress">
+            <div class="bar"><i id="bar"></i></div>
+            <span class="count" id="count">21/21</span>
+          </div>
+          <div class="scroll-x">
+            <table id="result">
+              <thead><tr><th>Port</th><th>State</th><th>Banner</th></tr></thead>
+              <tbody><tr><td>8000</td><td class="open">open</td><td>HTTP/1.0 200 OK | Server: SimpleHTTP/0.6 Python/3.9.6</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </figure>
+    </article>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">Name the project.</h2>
+    <div class="contact-rows">
+      <div class="contact-row"><span class="k">Contact</span><span class="v">Krish Khajuria</span></div>
+      <div class="contact-row"><span class="k">Phone</span><span class="v"><a href="tel:+917006631069">+91 7006631069</a></span></div>
+      <div class="contact-row"><span class="k">Email</span><span class="v"><a href="mailto:krish@tavorin.me">krish@tavorin.me</a></span></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Tavorin is an unregistered sole proprietorship of Krish Khajuria.</p>
+</footer>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+
+  /* ------------------------------------------------------------------
+     Hero: a field of ports being swept by a scan, drawn in one fragment
+     shader. No 3D library, no assets.
+  ------------------------------------------------------------------ */
+  var scan = (function () {
+    var canvas = document.getElementById('scan');
+    var gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
+    if (!gl) { canvas.style.display = 'none'; return null; }
+
+    var vs = 'attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+    var fs = [
+      '#ifdef GL_FRAGMENT_PRECISION_HIGH',
+      'precision highp float;',
+      '#else',
+      'precision mediump float;',
+      '#endif',
+      'uniform vec2 uRes;uniform float uTime;uniform float uScroll;uniform vec2 uMouse;',
+      'float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
+      'void main(){',
+      '  vec2 uv=(gl_FragCoord.xy-.5*uRes)/uRes.y;',
+      '  float pitch=mix(.24,1.15,uScroll);',
+      '  vec3 ro=vec3(uMouse.x*.7,mix(1.5,4.4,uScroll),mod(uTime*.45,600.));',
+      '  vec3 rd=normalize(vec3(uv.x,uv.y+uMouse.y*.03,1.25));',
+      '  float c=cos(pitch),s=sin(pitch);',
+      '  rd=vec3(rd.x,rd.y*c-rd.z*s,rd.y*s+rd.z*c);',
+      '  vec3 cobalt=vec3(.30,.42,1.),amber=vec3(1.,.69,.13);',
+      '  vec3 col=vec3(.016,.02,.039);',
+      '  col+=vec3(.10,.16,.55)*exp(-abs(rd.y)*9.)*.5;',
+      '  if(rd.y<-.001){',
+      '    float t=-ro.y/rd.y;',
+      '    vec2 p=ro.xz+rd.xz*t;',
+      '    vec2 g=p*1.5;vec2 id=floor(g);vec2 f=fract(g)-.5;',
+      '    float h=hash(id);',
+      '    float w=clamp(t*2.2/uRes.y/max(-rd.y,.04),.004,.5);',
+      '    float d=max(abs(f.x),abs(f.y));',
+      '    float box=smoothstep(.36+w,.36-w,d);',
+      '    float inner=smoothstep(.31+w,.31-w,d);',
+      '    float ring=box-inner;',
+      '    float cz=(id.y+.5)/1.5-ro.z;',
+      '    float front=mod(uTime*2.6,36.)-2.;',
+      '    float since=front-cz;',
+      '    float passed=step(0.,since);',
+      '    float lit=passed*exp(-since*.55);',
+      '    float open=step(.935,h);',
+      '    vec3 cell=vec3(.16,.21,.38)*ring;',
+      '    cell+=cobalt*(ring*.9+inner*.22)*lit;',
+      '    float flick=.85+.15*sin(uTime*3.+h*40.);',
+      '    cell+=amber*open*(inner*.9+ring)*passed*(.5+.5*exp(-since*.2))*flick;',
+      '    cell+=cobalt*exp(-abs((p.y-ro.z)-front)*3.)*.3;',
+      '    col+=cell*exp(-t*.075);',
+      '  }',
+      '  col*=1.-.35*dot(uv,uv);',
+      '  gl_FragColor=vec4(col,1.);',
+      '}'
+    ].join('\n');
+
+    function compile(type, src) {
+      var sh = gl.createShader(type);
+      gl.shaderSource(sh, src); gl.compileShader(sh);
+      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) { console.error(gl.getShaderInfoLog(sh)); return null; }
+      return sh;
+    }
+    var v = compile(gl.VERTEX_SHADER, vs), f = compile(gl.FRAGMENT_SHADER, fs);
+    if (!v || !f) { canvas.style.display = 'none'; return null; }
+    var prog = gl.createProgram();
+    gl.attachShader(prog, v); gl.attachShader(prog, f); gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.style.display = 'none'; return null; }
+    gl.useProgram(prog);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(prog, 'a');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    var uRes = gl.getUniformLocation(prog, 'uRes'),
+        uTime = gl.getUniformLocation(prog, 'uTime'),
+        uScroll = gl.getUniformLocation(prog, 'uScroll'),
+        uMouse = gl.getUniformLocation(prog, 'uMouse');
+
+    var state = { scroll: 0, mx: 0, my: 0, tx: 0, ty: 0, frames: 0, running: false, visible: true };
+    var start = performance.now(), raf = 0;
+
+    function resize() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      var w = Math.max(1, Math.round(canvas.clientWidth * dpr));
+      var h = Math.max(1, Math.round(canvas.clientHeight * dpr));
+      if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h); }
+    }
+    function draw(time) {
+      resize();
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, time);
+      gl.uniform1f(uScroll, state.scroll);
+      gl.uniform2f(uMouse, state.mx, state.my);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      state.frames++;
+    }
+    function loop() {
+      state.mx += (state.tx - state.mx) * 0.05;
+      state.my += (state.ty - state.my) * 0.05;
+      draw((performance.now() - start) / 1000);
+      raf = requestAnimationFrame(loop);
+    }
+    function play() { if (!state.running && state.visible && !document.hidden) { state.running = true; raf = requestAnimationFrame(loop); } }
+    function pause() { state.running = false; cancelAnimationFrame(raf); }
+
+    if (reduce) {
+      // Static fallback: one still frame, mid-sweep. Redrawn only on resize.
+      var still = function () { draw(7.5); };
+      still();
+      window.addEventListener('resize', still);
+    } else {
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (e) {
+          state.visible = e[0].isIntersecting;
+          state.visible ? play() : pause();
+        }).observe(canvas);
+      }
+      document.addEventListener('visibilitychange', function () { document.hidden ? pause() : play(); });
+      window.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return;
+        state.tx = e.clientX / window.innerWidth - 0.5;
+        state.ty = e.clientY / window.innerHeight - 0.5;
+      }, { passive: true });
+      play();
+    }
+    return state;
+  })();
+  window.__scan = scan; // read by the Playwright check
+
+  /* ------------------------------------------------------------------
+     Motion: one load sequence, then scroll-driven scenes.
+  ------------------------------------------------------------------ */
+  function showEverything() { root.classList.remove('motion'); }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    if (reduce || !window.gsap || !window.ScrollTrigger) { showEverything(); return; }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Load sequence
+    gsap.set('.hero [data-in]', { visibility: 'visible' });
+    var intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    intro
+      .from('#scan', { opacity: 0, duration: 1.6, ease: 'power2.out' }, 0)
+      .from('.hero [data-in="word"]', { yPercent: 115, duration: 1.25, stagger: 0.085 }, 0.15)
+      .from('.hero [data-in="fade"]', { opacity: 0, y: 24, duration: 1, stagger: 0.12 }, 0.75)
+      .from('.top', { opacity: 0, duration: 0.8, ease: 'power1.out' }, 0.9);
+
+    // Hero: the camera lifts and tips down over the port field as you leave
+    gsap.to('.hero-body', {
+      yPercent: -18, opacity: 0, ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom 35%', scrub: true }
+    });
+    if (scan) {
+      ScrollTrigger.create({
+        trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true,
+        onUpdate: function (self) { scan.scroll = self.progress; }
+      });
+    }
+
+    // What we do: each rule draws itself, the title slides into register
+    gsap.utils.toArray('.service').forEach(function (row) {
+      var tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: row, start: 'top 92%', end: 'top 45%', scrub: 0.6 }
+      });
+      tl.from(row.querySelector('.rule'), { scaleX: 0 }, 0)
+        .from(row.querySelector('h3'), { xPercent: 14, opacity: 0.12 }, 0)
+        .from(row.querySelector('p'), { opacity: 0, y: 28 }, 0.25);
+    });
+
+    // Work: replay the documented scan once it's on screen
+    var cmd = document.getElementById('cmd'), count = document.getElementById('count');
+    var full = cmd.textContent, typed = { n: 0 }, prog = { n: 0 };
+    var run = gsap.timeline({
+      scrollTrigger: { trigger: '.term', start: 'top 75%', once: true }
+    });
+    run
+      .from('.term', { opacity: 0, y: 40, duration: 0.8, ease: 'power3.out' }, 0)
+      .set(cmd, { textContent: '' }, 0)
+      .set(count, { textContent: '0/21' }, 0)
+      .to(typed, {
+        n: full.length, duration: 1.2, ease: 'none',
+        onUpdate: function () { cmd.textContent = full.slice(0, Math.round(typed.n)); }
+      }, 0.5)
+      .from('.term .warn', { opacity: 0, duration: 0.2 }, 1.8)
+      .from('#bar', { scaleX: 0, duration: 1.3, ease: 'power1.inOut' }, 2)
+      .to(prog, {
+        n: 21, duration: 1.3, ease: 'power1.inOut',
+        onUpdate: function () { count.textContent = Math.round(prog.n) + '/21'; }
+      }, 2)
+      .from('#result thead', { opacity: 0, duration: 0.3 }, 3.2)
+      .from('#result tbody tr', { opacity: 0, x: -12, duration: 0.5, ease: 'power2.out' }, 3.4);
+    gsap.set(['.term .warn', '#result thead', '#result tbody tr'], { opacity: 0 });
+    gsap.set('#bar', { scaleX: 0 });
+    gsap.set('.term', { opacity: 0 });
+
+    gsap.from('.case-text > *', {
+      opacity: 0, y: 30, duration: 0.9, ease: 'power3.out', stagger: 0.1,
+      scrollTrigger: { trigger: '.case-text', start: 'top 80%', once: true }
+    });
+
+    // Contact: headline tracks in, rows follow
+    gsap.from('.contact h2', {
+      xPercent: -8, opacity: 0.1, ease: 'none',
+      scrollTrigger: { trigger: '.contact', start: 'top 85%', end: 'top 30%', scrub: 0.6 }
+    });
+    gsap.from('.contact-row', {
+      opacity: 0, y: 24, duration: 0.8, ease: 'power3.out', stagger: 0.12,
+      scrollTrigger: { trigger: '.contact-rows', start: 'top 88%', once: true }
+    });
+
+    window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  });
+
+  // If the CDN never answers, don't leave the hero blank.
+  setTimeout(function () { if (!window.gsap) showEverything(); }, 2500);
+})();
+</script>
+</body>
+</html>
