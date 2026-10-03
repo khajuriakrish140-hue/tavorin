@@ -214,7 +214,13 @@
   .field input:hover, .field textarea:hover { border-color: var(--muted); }
   .field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-color: var(--paper); }
   .form-end { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
-  .form-note { color: var(--muted); font-size: .9375rem; }
+  .form-status { font-size: 1rem; font-weight: 500; min-height: 1.55em; }
+  .form-status.ok { color: var(--paper); }
+  .form-status.ok::before { content: ""; display: inline-block; width: .55em; height: .55em; background: var(--amber); margin-right: .6em; }
+  .form-status.err { color: #ff8a7a; }
+  .form-status a { color: inherit; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  button.btn[disabled] { opacity: .55; cursor: progress; }
   button.btn { font-family: inherit; cursor: pointer; border-radius: 0; }
   button.btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
   .contact-rows { border-top: 1px solid var(--line); }
@@ -276,7 +282,7 @@
       <h1><span class="w lead"><span data-in="word">Tavorin:</span></span> <span class="w"><span data-in="word">tech</span></span> <span class="w"><span data-in="word">solutions</span></span> <span class="w"><span data-in="word">on</span></span> <span class="w"><span data-in="word">demand.</span></span></h1>
       <p class="subline" data-in="fade">Got a bug? We'll fix it. Need automation? We'll build it. Name the project, and if it's within our scope, we'll take it on. If a project needs skills outside our current team, we bring in the right developer.</p>
       <div class="hero-actions" data-in="fade">
-        <a class="btn solid" href="mailto:krish@tavorin.me">Email Krish</a>
+        <a class="btn solid" href="#contact">Send a message</a>
         <a class="btn ghost" href="#work">See the work</a>
       </div>
     </div>
@@ -341,18 +347,28 @@
 
   <section class="contact" id="contact" aria-labelledby="contact-title">
     <h2 id="contact-title">Name the project.</h2>
-    <form class="contact-form" id="contact-form" action="mailto:krish@tavorin.me" method="post" enctype="text/plain">
+    <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="post">
+      <input type="hidden" name="access_key" value="661e4177-d2de-4b37-ac17-2651fd918279">
+      <input type="hidden" name="subject" value="New enquiry from tavorin.me">
+      <div class="hp" aria-hidden="true">
+        <label for="f-botcheck">Leave this unticked</label>
+        <input id="f-botcheck" name="botcheck" type="checkbox" tabindex="-1" autocomplete="off">
+      </div>
       <div class="field">
         <label for="f-name">Your name</label>
         <input id="f-name" name="name" type="text" autocomplete="name" required>
       </div>
       <div class="field">
-        <label for="f-project">What do you need?</label>
-        <textarea id="f-project" name="project" rows="4" required></textarea>
+        <label for="f-email">Your email</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+      </div>
+      <div class="field">
+        <label for="f-message">What do you need?</label>
+        <textarea id="f-message" name="message" rows="4" required></textarea>
       </div>
       <div class="form-end">
-        <button class="btn solid" type="submit">Open email draft</button>
-        <p class="form-note">Opens a draft in your email app, addressed to krish@tavorin.me.</p>
+        <button class="btn solid" type="submit" id="f-submit">Send message</button>
+        <p class="form-status" id="f-status" role="status" aria-live="polite"></p>
       </div>
     </form>
     <div class="contact-rows">
@@ -596,14 +612,27 @@
     window.addEventListener('load', function () { ScrollTrigger.refresh(); });
   });
 
-  // Contact form: compose a readable email draft instead of a raw form post.
-  var form = document.getElementById('contact-form');
+  // Contact form: post to Web3Forms without leaving the page.
+  var form = document.getElementById('contact-form'),
+      submit = document.getElementById('f-submit'),
+      status = document.getElementById('f-status');
+  function say(kind, html) { status.className = 'form-status ' + kind; status.innerHTML = html; }
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var name = form.elements.name.value.trim(), project = form.elements.project.value.trim();
-    window.location.href = 'mailto:krish@tavorin.me?subject=' +
-      encodeURIComponent('Project enquiry from ' + name) +
-      '&body=' + encodeURIComponent(project + '\n\n' + name);
+    submit.disabled = true; submit.textContent = 'Sending';
+    say('', '');
+    fetch(form.action, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (res.status !== 200 || data.success === false) throw new Error(data.message || 'HTTP ' + res.status);
+          form.reset();
+          say('ok', 'Message sent.');
+        });
+      })
+      .catch(function () {
+        say('err', 'Message not sent. Try again, or email <a href="mailto:krish@tavorin.me">krish@tavorin.me</a>.');
+      })
+      .then(function () { submit.disabled = false; submit.textContent = 'Send message'; });
   });
 
   // If the CDN never answers, don't leave the hero blank.
