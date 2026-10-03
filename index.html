@@ -203,6 +203,20 @@
     font-size: clamp(2.5rem, 9.4vw, 9.5rem); line-height: .92; letter-spacing: -0.035em;
     margin-bottom: clamp(2.5rem, 8vh, 5rem);
   }
+  .contact-form { max-width: 46rem; margin-bottom: clamp(3rem, 9vh, 5.5rem); display: grid; gap: 1.75rem; }
+  .field { display: grid; gap: .5rem; }
+  .field label { color: var(--muted); font-size: 1rem; }
+  .field input, .field textarea {
+    width: 100%; font: inherit; font-size: 1.125rem; color: var(--paper);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 0;
+    padding: .9rem 1rem; resize: vertical; transition: border-color .2s;
+  }
+  .field input:hover, .field textarea:hover { border-color: var(--muted); }
+  .field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-color: var(--paper); }
+  .form-end { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
+  .form-note { color: var(--muted); font-size: .9375rem; }
+  button.btn { font-family: inherit; cursor: pointer; border-radius: 0; }
+  button.btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
   .contact-rows { border-top: 1px solid var(--line); }
   .contact-row {
     display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 1.5rem; align-items: baseline;
@@ -218,7 +232,9 @@
   .contact-row a { text-decoration: none; background: linear-gradient(var(--amber), var(--amber)) left bottom / 0 2px no-repeat; transition: background-size .35s ease, color .2s; }
   .contact-row a:hover { background-size: 100% 2px; color: #fff; }
 
-  footer { padding: 2rem var(--gutter) 2.5rem; color: var(--muted); font-size: .875rem; }
+  footer { padding: 2rem var(--gutter) 2.5rem; color: var(--muted); font-size: .875rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 2rem; }
+  footer a { text-decoration: none; }
+  footer a:hover { color: var(--paper); }
 
   /* ---------- narrow ---------- */
   @media (max-width: 860px) {
@@ -325,9 +341,22 @@
 
   <section class="contact" id="contact" aria-labelledby="contact-title">
     <h2 id="contact-title">Name the project.</h2>
+    <form class="contact-form" id="contact-form" action="mailto:krish@tavorin.me" method="post" enctype="text/plain">
+      <div class="field">
+        <label for="f-name">Your name</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="f-project">What do you need?</label>
+        <textarea id="f-project" name="project" rows="4" required></textarea>
+      </div>
+      <div class="form-end">
+        <button class="btn solid" type="submit">Open email draft</button>
+        <p class="form-note">Opens a draft in your email app, addressed to krish@tavorin.me.</p>
+      </div>
+    </form>
     <div class="contact-rows">
       <div class="contact-row"><span class="k">Contact</span><span class="v">Krish Khajuria</span></div>
-      <div class="contact-row"><span class="k">Phone</span><span class="v"><a href="tel:+917006631069">+91 7006631069</a></span></div>
       <div class="contact-row"><span class="k">Email</span><span class="v"><a href="mailto:krish@tavorin.me">krish@tavorin.me</a></span></div>
     </div>
   </section>
@@ -335,6 +364,7 @@
 
 <footer>
   <p>Tavorin is an unregistered sole proprietorship of Krish Khajuria.</p>
+  <p>Phone <a href="tel:+917006631069">+91 7006631069</a></p>
 </footer>
 
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -554,12 +584,26 @@
       xPercent: -8, opacity: 0.1, ease: 'none',
       scrollTrigger: { trigger: '.contact', start: 'top 85%', end: 'top 30%', scrub: 0.6 }
     });
+    gsap.from('.contact-form > *', {
+      opacity: 0, y: 24, duration: 0.8, ease: 'power3.out', stagger: 0.1,
+      scrollTrigger: { trigger: '.contact-form', start: 'top 85%', once: true }
+    });
     gsap.from('.contact-row', {
       opacity: 0, y: 24, duration: 0.8, ease: 'power3.out', stagger: 0.12,
       scrollTrigger: { trigger: '.contact-rows', start: 'top 88%', once: true }
     });
 
     window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  });
+
+  // Contact form: compose a readable email draft instead of a raw form post.
+  var form = document.getElementById('contact-form');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = form.elements.name.value.trim(), project = form.elements.project.value.trim();
+    window.location.href = 'mailto:krish@tavorin.me?subject=' +
+      encodeURIComponent('Project enquiry from ' + name) +
+      '&body=' + encodeURIComponent(project + '\n\n' + name);
   });
 
   // If the CDN never answers, don't leave the hero blank.
